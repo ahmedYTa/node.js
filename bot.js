@@ -11,7 +11,7 @@ client.on('message', msg => {
   }
 });
 client.on('message', async msg => {
-    if(msg.content.startsWith(prefix + '*bc')) {
+    if(msg.content.startsWith(prefix + *bc)) {
       let roleW = msg.mentions.roles.first();
       let args2 = msg.content.split(" ").slice(2).join(" ");
        if(!msg.guild.members.get(msg.author.id).hasPermission('ADMINISTRATOR')) return msg.channel.send('Required Administrator Permission') 
