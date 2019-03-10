@@ -10,25 +10,26 @@ client.on('message', msg => {
     msg.reply('Pong!');
   }
 });
-client.on('message', function(msg) {
-    if(msg.content.startsWith (prefix + 'server')) {
-      if(!msg.channel.guild) return msg.reply('**❌ اسف لكن هذا الامر للسيرفرات فقط **');
-      let embed = new Discord.RichEmbed()
-      .setColor('RANDOM')
-      .setThumbnail(msg.guild.iconURL)
-      .addField('🌐 **اسم السيرفر : **' , `**[ ${msg.guild.name} ]**`,true)
-      .addField('🌍 ** موقع السيرفر :**',`**[ ${msg.guild.region} ]**`,true)
-      .addField('🎖** الرتب :**',`**[ ${msg.guild.roles.size} ]**`,true)
-      .addField('👤** عدد الاعضاء :**',`**[ ${msg.guild.memberCount} ]**`,true)
-      .addField('✅** عدد الاعضاء الاونلاين :**',`**[ ${msg.guild.members.filter(m=>m.presence.status == 'online').size} ]**`,true)
-      .addField('📝** الرومات الكتابية :**',`**[ ${msg.guild.channels.filter(m => m.type === 'text').size} ]**`,true)
-      .addField('🔊** رومات الصوت :**',`**[ ${msg.guild.channels.filter(m => m.type === 'voice').size} ]**`,true)
-      .addField('👑** صاحب السيرفر :**',`**[ ${msg.guild.owner} ]**`,true)
-      .addField('🆔** ايدي السيرفر :**',`**[ ${msg.guild.id} ]**`,true)
-      .addField('📅** تم عمل السيرفر في : **',msg.guild.createdAt.toLocaleString())
-      .addField('😴** روم AFK**',`**${msg.guild.afkChannel || 'None'}**`, true)
-      .addField('🙃** الايموجيات :**', `**${msg.guild.emojis.size}** \`[\` **${msg.guild.emojis.map(m => m).join('**|**')} \`]\`**`, true);
-      msg.channel.send({embed:embed});
-    }
-  });///////////////ALPHA CODES //// MAHMOUD QUSTYLE
+client.on('message', async msg => {
+    if(msg.content.startsWith(prefix + '*bc')) {
+      let roleW = msg.mentions.roles.first();
+      let args2 = msg.content.split(" ").slice(2).join(" ");
+       if(!msg.guild.members.get(msg.author.id).hasPermission('ADMINISTRATOR')) return msg.channel.send('Required Administrator Permission') 
+       let role = msg.guild.roles.find(`name`, roleW.name);
+       if(!role) return msg.reply(`Could't find \`${roleW.name}\` role.`).then( msgs => msgs.delete(3000)); 
+       let nomsg = 0;
+         msg.channel.send(`**- [ :mailbox_closed:  :: ${nomsg} ] ・عدد الرسائل المرسلة**`).then(msgs => {
+         role.members.forEach(m =>{
+        m.send(args2.replace('[user]', m).replace('[server]', m.guild.name).replace('[sender]', msg.author.username)).then( () =>{
+          nomsg++;
+                  if(!msgs) return;
+                  msgs.edit(`**- [ :mailbox_closed:  :: ${nomsg} ] ・عدد الرسائل المرسلة**`);
+        }).catch(e => {
+          nomsg++;
+                  if(!msgs) return;
+          msgs.edit(`**- [ :mailbox_closed:  :: ${nomsg} ] ・عدد الرسائل المرسلة**`);
+        });
+        }); 
+      });
+      }})
 client.login(process.env.BOT_TOKEN);
