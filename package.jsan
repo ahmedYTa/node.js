@@ -46,5 +46,5 @@
 =-=-=-=-=-=-=-=-=
 بدال التوكن حط
 --------------
-client.login();
+client.login(https://discordapp.com/api/oauth2/authorize?client_id=549127923119161344&permissions=0&scope=bot);
 =-=-=-=-=-=-=-=-=
